@@ -10,14 +10,18 @@ var client = new Twitter ({
     access_token_secret: "XanewrTpk0vg8hGsP918NUD0jKk8wGjBAAha6qKKpLPZe",
 });
 
-var params = {screen_name: "juliaaaam8", text:""}
+var params = {screen_name: "juliaaaam8", count: 20}
 
 client.get('statuses/user_timeline', params, function(error, tweets, response) {
     if (error) {throw error;
     };
 
     if (!error) {
-    console.log(tweets);
+    // var jsonBody = JSON.parse(response);
+    for(i = 0; i < tweets.length; i++){
+    console.log(tweets[i].text);
+    console.log(tweets[i].created_at);
+    };
     };
   });
 
