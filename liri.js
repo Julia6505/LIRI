@@ -84,6 +84,7 @@ for (var i = 3; i < nodeArgsMovies.length; i++) {
   }
 }
 if (movieName === "") {
+  console.log("\nIf you haven't watched Mr. Nobody, then you should - http://www.imdb.com/title/tt0485947. It's on Neftlix!\n")
   movieName = "Mr+Nobody";
 };
 var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=40e9cece";
