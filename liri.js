@@ -13,8 +13,8 @@ var client = new Twitter ({
     access_token_key: "912017691363422208-ExBpJeLySGWXPMkkZvk4ChRTc8eMDhe",
     access_token_secret: "XanewrTpk0vg8hGsP918NUD0jKk8wGjBAAha6qKKpLPZe",
 });
-
-if(argumentInput == "my-tweets"){
+function twitter() {
+// if(argumentInput == "my-tweets"){
 var params = {screen_name: "juliaaaam8", count: 20}
 
 client.get('statuses/user_timeline', params, function(error, tweets, response) {
@@ -31,24 +31,30 @@ client.get('statuses/user_timeline', params, function(error, tweets, response) {
 };
 // end Twitter
 
-
 //Spotify request info and if statement that pulls data when 'spotify-this-song' is typed
+function spotify(song) {
 var spotify = new Spotify({
     id: "569b986909fb40db838262de1380d393",
     secret: "f5b7b55801464dd3bc672665bd685f57"
   });
+  // console.log("TEXT TEXT TEXT TEXT",text);
   var nodeArgsSong = process.argv;
-  var songName = "";
-  if(argumentInput == "spotify-this-song"){
+  var songName = song;
+  // if(argumentInput == "spotify-this-song"){
   for (var i = 3; i < nodeArgsSong.length; i++){
     if(i > 3 && i < nodeArgsSong.length){
       songName = songName + "+" + nodeArgsSong[i];
-    } else{
+    } 
+    else{
       songName += nodeArgsSong[i];
     }
   }
 
-  spotify.search({ type: 'track', query: songName, limit: 3 }, function(err, data) {
+  if (songName === "") {
+    songName = 'ace+of+base+sign';
+  };
+
+  spotify.search({ type: 'track', query: songName, limit: 1 }, function(err, data) {
     if (err) {
       return console.log('Error occurred: ' + err);
     }
@@ -61,13 +67,14 @@ var spotify = new Spotify({
   console.log(spotifyData[0].name); 
   console.log(spotifyData[0].external_urls);
     // };
-  };
+  }
   });
 };
 //end Spotify
 
 //OMDB request info and if statement that pulls data when 'movie-this' is typed
-if(argumentInput == "movie-this"){
+// if(argumentInput == "movie-this"){
+function omdb() {
 var nodeArgsMovies = process.argv;
 var movieName = "";
 for (var i = 3; i < nodeArgsMovies.length; i++) {
@@ -76,6 +83,9 @@ for (var i = 3; i < nodeArgsMovies.length; i++) {
   }else {movieName += nodeArgsMovies[i];
   }
 }
+if (movieName === "") {
+  movieName = "Mr+Nobody";
+};
 var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=40e9cece";
 
 request(queryUrl, function(error, response, body){
@@ -98,12 +108,30 @@ if (!error) {
 };
 //end OMDB
 
-// if(argumentInput == "do-what-it-says"){
-// // function doIt() {
-//   fs.readFile('random.txt', "utf8", function(error, data){
-//     var txt = data.split(',');
-//     console.log(spotifySong(txt[1]))
-//     console.log(spotifySong())
-    
-//   });
+function doIt() {
+if(argumentInput == "do-what-it-says"){
+  fs.readFile('random.txt', "utf8", function(error, data){
+    var txt = data.split(',');
+    spotify(txt[1]);
+  });
+};
+};
+//all conditional statements that occur when data is placed in the console 
+  switch (argumentInput) {
+  case 'my-tweets':
+      twitter();
+      break;
+
+  case 'spotify-this-song':
+      spotify("");
+      break;
+
+  case 'movie-this':
+      omdb();
+      break;
+
+  case 'do-what-it-says':
+      doIt();
+      break;
+}
 
